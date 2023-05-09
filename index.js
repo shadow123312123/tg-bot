@@ -21,43 +21,28 @@ bot.on('message', async (msg) => {
     if (text === '/start') {
         await bot.sendMessage(chatId, 'Кнопка', {
             reply_markup: {
-                keyboard: [
+                inline_keyboard: [
                     [{text: 'Сделать заказ', web_app: {url: webAppUrl}}]
                 ]
             }
         })
     }
-
-    if (msg?.web_app_data?.data) {
-        try {
-            const data = JSON.parse(msg?.web_app_data?.data)
-
-            bot.sendMessage(chatId, 'Заказ: ')
-        } catch (e) {
-            console.log(e);
-        }
-
-    }
 });
 
 app.post('/web-data', async (req, res) => {
-    const {queryId, products, totalPrice} = req.body;
+    const {queryId, products =[], totalPrice} = req.body;
     try {
         await bot.answerWebAppQuery(queryId, {
             type: 'article',
             id: queryId,
             title : 'Успешная покупка!',
-            input_message_content: {message_text: 'Итого: ' + totalPrice}
+            input_message_content: {
+                message_text: `Итого: ${totalPrice}, ${products.map(item => item.title).join(', ')}`
+            }
         })
         return res.status(200).json({});
     } catch (e) {
-        await bot.answerWebAppQuery(queryId, {
-            type: 'article',
-            id: queryId,
-            title : 'Не удалось приобрести товар',
-            input_message_content: {message_text: 'Не удалось приобрести товар'}
-        })
-        return res.status(500).json({});
+        return res.status(500).json({})
     }
 
 })
