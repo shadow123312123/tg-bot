@@ -9,7 +9,7 @@ const token = '6209650789:AAHEeTG3UtoLooHdWqCNgFGDeEkWROeV9fA';
 const webAppUrl = 'https://dainty-hamster-8dabd9.netlify.app';
 
 const bot = new TelegramBot(token, {polling: true});
-const app =express();
+const app = express();
 
 app.use(express.json());
 app.use(cors());
