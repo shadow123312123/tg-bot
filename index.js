@@ -6,7 +6,7 @@ const cors = require('cors');
 const token = '6209650789:AAHEeTG3UtoLooHdWqCNgFGDeEkWROeV9fA';
 
 
-const webAppUrl = 'https://dainty-hamster-8dabd9.netlify.app';
+const webAppUrl = 'https://super-pothos-808b4d.netlify.app';
 
 const bot = new TelegramBot(token, {polling: true});
 const app = express();
@@ -64,9 +64,13 @@ app.post('/web-data', async (req, res) => {
             id: queryId,
             title : 'Успешная покупка!',
             input_message_content: {
-                message_text: `Итого: ${totalPrice}, ${products.map(item => item.title).join(', ')}`
+                message_text: `${products.map((item) => 
+                   `${item.title} - ${item.quantity}`
+                ).join('\n')}\n-------------------------\nИтого: ${totalPrice}`
+
             }
         })
+        console.log(products)
         return res.status(200).json({});
     } catch (e) {
         return res.status(500).json({})
