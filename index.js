@@ -39,9 +39,9 @@ bot.on('message', async (msg) => {
 
     if(msg?.web_app_data?.data) {
         try {
-            const data = JSON.parse(msg?.web_app_data?.data)
+            const data = JSON.parse(msg?.web_app_data?.data);
             console.log(data)
-            await bot.sendMessage(chatId, 'Спасибо за обратную связь!')
+            await bot.sendMessage(chatId, 'Спасибо за обратную связь!');
             await bot.sendMessage(chatId, 'Ваша страна: ' + data?.country);
             await bot.sendMessage(chatId, 'Ваша улица: ' + data?.street);
 
@@ -68,15 +68,15 @@ app.post('/web-data', async (req, res) => {
                 ).join('\n')}\n-------------------------\nИтого: ${totalPrice}`
 
             }
-        })
+        });
 
         return res.status(200).json({});
     } catch (e) {
         return res.status(500).json({});
     }
 
-})
+});
 
 
-const PORT = 8000
-app.listen(PORT, () => console.log('server started on PORT ' + PORT))
+const PORT = 8000;
+app.listen(PORT, () => console.log('server started on PORT ' + PORT));
